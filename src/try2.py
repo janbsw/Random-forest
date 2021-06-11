@@ -7,7 +7,7 @@ from sklearn import metrics
 
 
 def load_dataset():
-    return pd.read_csv('K:\Code\Random-forest-regression\data\CurrentdetailData.csv')
+    return pd.read_csv('../data/CurrentdetailData.csv')
 
 def eveluate_preditctions(target_test,target_pred):
     return metrics.accuracy_score(target_test, target_pred)

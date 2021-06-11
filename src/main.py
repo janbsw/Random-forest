@@ -1,11 +1,10 @@
-import numpy as np
 import pandas as pd
 from sklearn.model_selection import train_test_split
 from sklearn import preprocessing
 from sklearn.ensemble import RandomForestClassifier
 from sklearn import metrics
 
-data=pd.read_csv('K:\Code\Random-forest-regression\data\CurrentdetailData.csv')
+data=pd.read_csv('../data/CurrentdetailData.csv')
 
 data=data.apply(preprocessing.LabelEncoder().fit_transform)
 

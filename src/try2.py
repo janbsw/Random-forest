@@ -3,7 +3,8 @@ from sklearn.model_selection import train_test_split
 from sklearn import preprocessing as le
 from sklearn.ensemble import RandomForestClassifier
 from sklearn import metrics
-
+from sklearn.tree import export_graphviz
+import os
 
 def load_dataset():
     return pd.read_csv('../data/CurrentdetailData.csv')
@@ -14,9 +15,12 @@ def eveluate_preditctions(target_test,target_pred):
 def preprocessing(data):
     return data.apply(le.LabelEncoder().fit_transform)
 
-def predict(features_train, target_train,features_test):
+def train(features_train, target_train):
     clf=RandomForestClassifier(n_estimators=200)
     clf.fit(features_train, target_train.ravel())
+    return clf
+    
+def preditct(clf,features_test):
     target_pred=clf.predict(features_test)
     return target_pred
 
@@ -32,12 +36,25 @@ def create_targets(data,target):
 def create_test_train(feature,target):
     return train_test_split(feature,target,test_size=0.3,random_state=50)
 
+def visualization(clf,feature):
+    clff=clf.estimators_[0]
+    export_graphviz(clff,
+                feature_names=feature.columns,
+                filled=True,
+                rounded=True)
+    os.system('dot -Tpng tree.dot -o tree.png')
+
+
+    
+
 def main():
     df=load_dataset()
     df=preprocessing(df)
     feature, target = create_datasets(df,"Target",6)
     features_train, features_test, target_train, target_test = create_test_train(feature,target)
-    target_pred=predict(features_train,target_train,features_test)
+    clf=train(features_train,target_train)
+    target_pred=preditct(clf,features_test)
+    visualization(clf,feature)
     print("Accuracy",eveluate_preditctions(target_test,target_pred))
 
 

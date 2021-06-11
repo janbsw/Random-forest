@@ -56,7 +56,7 @@ def main():
     features_train, features_test, target_train, target_test = create_test_train(feature,target)
     clf = RandomForestClassifier()
     model = GridSearchCV(estimator = clf, param_grid = grid_search, 
-                               cv = 4, verbose= 10, n_jobs = -20)
+                               cv = 4, verbose= 10, n_jobs = -1)
     model.fit(features_train,target_train)
     target_pred=model.best_estimator_.predict(features_test)
     print(eveluate_preditctions(target_test,target_pred))
